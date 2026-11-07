@@ -1,188 +1,123 @@
-# KnitTrack-Knitwear-Export-Production-Order-Tracking-System
-A full-stack knitwear export production tracking system built with React, TypeScript, Node.js and Express. Features include TNA milestone tracking, daily production updates, AI-assisted Tamil issue categorisation, run-rate delay monitoring and a multi-tenant buyer portal.
-# KnitTrack – Knitwear Export Production Order Tracking System
+# KnitTrack Tiruppur — Knitwear Production Order-Tracking System
 
-**Production Order Tracking with Multi-Tenant Buyer View & AI-Assisted Issue Management**
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20App-emerald?style=flat-square)](https://ais-pre-a2bkzzm4scpewhcprbh3ck-235016284191.asia-southeast1.run.app)
+[![Repository](https://img.shields.io/badge/GitHub-Subha23456%2FKnitTrack-blue?style=flat-square)](https://github.com/Subha23456/Knitwear-exporter-s-production-order-tracking-app-with-buyer-view/)
 
-KnitTrack is a web-based production order tracking solution designed for knitwear export companies in Tiruppur. It helps merchandisers, floor supervisors, and buyers monitor production progress, track milestones, identify potential delays, and improve communication through a centralized platform.
+Production order-tracking application with isolated buyer views built for **Company A, Tiruppur**, a high-volume knitwear garment exporter to UK and EU retailers (annual turnover ₹95–110 Crore).
 
-## Project Links
-- **Live Application:** https://ais-pre-a2bkzzm4scpewhcprbh3ck-235016284191.asia-southeast1.run.app
+---
 
-## Problem Statement
+## The Client's Problem & Financial Exposure
 
-Knitwear export companies often depend on Excel sheets, phone calls, and manual updates to monitor production orders. This makes it difficult to identify delays, collect accurate production information, and provide timely updates to buyers.
+Today, Company A tracks 500 export orders a year via phone calls and fragmented Excel spreadsheets:
+- **8% of orders ship late (40 orders/year).**
+- **15 orders require emergency air-freight** at ₹3.50 Lakh extra penalty = **₹52.50 Lakh**.
+- **25 orders incur a 5% buyer discount penalty** at ₹1.05 Lakh average = **₹26.25 Lakh**.
+- **12 merchandisers spend 2 hours a day chasing factory floor status** = 7,200 hours/year @ ₹400 = **₹28.80 Lakh**.
+- **Total annual loss:** **₹1.08 Crore per year**.
 
-KnitTrack aims to address these challenges by providing a centralized production tracking platform with role-based access, daily updates, milestone monitoring, and AI-assisted issue categorisation.
+---
 
-## Key Features
+## Core Implemented Capabilities
 
-### 1. Production Order Management
-- Create and manage export production orders.
-- Maintain PO number, buyer, style, colour, and order quantity.
-- Track ex-factory dates and production stages.
-- Configure TNA milestones.
+### 1. Production Order Setup with TNA Milestones
+- PO setup with style, product specification, FOB price per piece, and ex-factory dispatch date.
+- Colourway and size breakdown matrix (S, M, L, XL) with auto-computed total quantities and order rupee value.
+- Automated 8-stage Time-and-Action (TNA) schedule generator (Fabric In-House, Cutting, Printing, Stitching, Washing, Finishing, Final QC, Packing/Ex-Factory) based on standard Tiruppur lead-time proportions.
 
-### 2. Production Tracking
-- Record daily production quantities.
-- Monitor stage-wise production progress.
-- Capture production updates from floor supervisors.
-- Track order completion status.
+### 2. Floor Supervisor Mobile Interface (Tamil UI & Offline Queue)
+- Mobile-first, touch-friendly UI optimized for low-memory (2–3 GB RAM) floor smartphones.
+- **Language Toggle:** Instant switch between English and Tamil (தமிழ்).
+- **Tamil Voice & Text Input:** Real Web Speech API recognition in Tamil (`ta-IN`) and English, with offline audio memo recording fallback.
+- **AI Categorization (Gemini 3.8 Flash):** Translates Tamil floor notes into English, classifies root causes into 8 standardized apparel categories, and calculates a confidence score.
+- **Offline Storage Queue:** Automatically stores submissions locally when factory Wi-Fi or cellular connectivity drops, with a 1-tap background synchronization queue.
 
-### 3. Production Status Dashboard
-- Green – On Track
-- Amber – At Risk
-- Red – Delayed
+### 3. Order Board with Run-Rate Delay Mathematics
+- **Traffic Light Indicators:** Green (on track), Amber (tight margin / 1–3 day slip), and Red (critical run-rate deficit / air-freight risk).
+- **The Mathematics Breakdown:** Shows the exact working formula:
+  - $\text{Remaining Quantity } (R) = \text{Target} - \text{Completed}$
+  - $\text{Working Days Remaining } (D) = \text{Days until Ex-Factory excluding factory Sundays}$
+  - $\text{Required Daily Run Rate} = R / D$
+  - $\text{Current Daily Run Rate} = \text{3-Day average floor output}$
+  - $\text{Projected Slip} = \text{Projected Date} - \text{Ex-Factory Date}$
+  - $\text{Financial Risk} = \text{Air-freight surcharge (₹3.50L) + 5% late discount exposure}$
 
-Provides a quick overview of order progress and potential production delays.
+### 4. Human-in-the-Loop Merchandiser Delay Gate
+- Supervisor Tamil notes and AI-generated English translations display side-by-side.
+- Merchandisers can override the reason category and add internal notes.
+- **Quarantine Gate:** Delays do NOT reach buyers unverified. Merchandisers must formulate a concrete mitigation plan before publishing to the Buyer Portal.
 
-### 4. Run-Rate Delay Monitoring
-- Calculate remaining production quantity.
-- Estimate required daily production.
-- Compare required output with actual production.
-- Identify orders that may miss their ex-factory dates.
+### 5. Strict Multi-Tenant Buyer Portal & Compliance Audit Trail
+- **Server-Enforced Tenant Isolation:** European buyers (e.g., Company B UK, Company C Germany) access only their own orders. Query parameter tampering is strictly rejected.
+- **Date Change Compliance History:** Every ex-factory date shift is permanently recorded in the audit trail with the previous date, new date, change justification, author, and timestamp.
+- **Verified QC Photos & Status Export:** Buyers can view verified inspection photos and download their Weekly Status Report in Excel/CSV format.
 
-### 5. AI-Assisted Tamil Issue Categorisation
-- Support production issue reporting in Tamil.
-- Generate English translations and suggested issue categories.
-- Use predefined categories for common production problems.
-- Allow merchandisers to review AI suggestions before buyer communication.
+### 6. Executive Managing Director (MD) Financial Risk Dashboard
+- Real-time tracking against Company A's ₹1.08 Crore loss problem.
+- Progress metrics toward reducing late shipments from 8% to 5%, halving chasing time, and reducing buyer status emails by 60%.
 
-### 6. Supervisor Mobile Interface
-- Mobile-friendly production update interface.
-- Quick quantity entry.
-- Tamil and English language support.
-- Designed for factory-floor usage.
+---
 
-### 7. Multi-Tenant Buyer Portal
-- Buyer-specific order visibility.
-- Read-only production progress.
-- Access to authorised order updates and photos.
-- Separation of buyer information.
+## Tech Stack
 
-### 8. Audit and Reporting
-- Track production milestone changes.
-- Maintain date-change history.
-- Support production reporting and buyer communication.
+- **Frontend:** React 19, TypeScript, Tailwind CSS v4, Lucide Icons, Motion.
+- **Backend:** Node.js, Express, tsx.
+- **Database:** SQLite (`better-sqlite3`) with WAL mode and foreign key constraints.
+- **AI Service:** Gemini 3.8 Flash via `@google/genai` TypeScript SDK (with built-in offline NLP fallback).
 
-## User Roles
+---
 
-| Role | Responsibilities |
-|---|---|
-| Merchandiser | Manage orders, monitor production, review issues |
-| Supervisor | Submit daily production updates and issue notes |
-| Buyer | View authorised order progress and milestones |
-| Managing Director | Monitor overall production and business performance |
-
-## Technology Stack
-
-| Layer | Technologies |
-|---|---|
-| Frontend | React 19, TypeScript, Tailwind CSS |
-| Build Tool | Vite |
-| Backend | Node.js, Express.js |
-| Database | SQLite |
-| AI Integration | Google Gemini API |
-| Icons | Lucide Icons |
-| Testing | Vitest |
-
-## System Architecture
-
-The application follows a modular client-server architecture.
-
-1. **Presentation Layer:** React-based interfaces for merchandisers, supervisors, buyers, and management.
-2. **Application Layer:** Express REST APIs handle order management, production updates, authentication, and reporting.
-3. **AI Layer:** AI-assisted Tamil issue categorisation with human review.
-4. **Data Layer:** Database storage for users, orders, milestones, production logs, and audit records.
-
-## Project Structure
-
-```text
-KnitTrack/
-├── src/
-│   ├── components/
-│   ├── services/
-│   ├── utils/
-│   ├── test/
-│   └── ...
-├── data/
-├── server.ts
-├── package.json
-├── vite.config.ts
-├── tsconfig.json
-├── .env.example
-├── TDD.md
-├── deployment.md
-└── README.md
-```
-
-## Installation and Setup
+## Installation & Local Run
 
 ### Prerequisites
+- Node.js 18.x or 20.x+
+- npm 9.x+
 
-- Node.js
-- npm
-- Git
-- Visual Studio Code (recommended)
-
-### Step 1: Clone the Repository
-
+### Quick Start
 ```bash
+# 1. Clone the repository
 git clone https://github.com/Subha23456/Knitwear-exporter-s-production-order-tracking-app-with-buyer-view.git
-```
-
-### Step 2: Open the Project
-
-```bash
 cd Knitwear-exporter-s-production-order-tracking-app-with-buyer-view
-```
 
-### Step 3: Install Dependencies
-
-```bash
+# 2. Install dependencies
 npm install
-```
 
-### Step 4: Configure Environment Variables
+# 3. Configure environment
+cp .env.example .env
 
-Create a `.env` file in the root directory and configure the required values.
+# 4. Run automated tests (24 Vitest test cases)
+npm test
 
-```env
-GEMINI_API_KEY=your_gemini_api_key
-PORT=3000
-APP_URL=http://localhost:3000
-NODE_ENV=development
-```
-
-Never commit API keys or passwords to the repository.
-
-### Step 5: Start the Application
-
-```bash
+# 5. Start the application in development mode
 npm run dev
 ```
 
-Open the local URL displayed in the terminal.
+Visit `http://localhost:3000` in your browser.
 
-## Sample Production Orders
+### Production Build & Verification
+```bash
+npm run lint    # TypeScript check (tsc --noEmit)
+npm run build   # Production bundle in dist/
+npm start       # Production server (node server.ts)
+```
 
-| PO Number | Buyer | Product | Quantity | Ex-Factory |
-|---|---|---|---:|---|
-| B-PO-88213 | Company B | Men's Crew Neck Tee | 12,000 | 20-Nov-2026 |
-| B-PO-88240 | Company B | Men's Polo | 8,000 | 12-Nov-2026 |
-| C-PO-0488 | Company C | Kids Printed Tee | 10,000 | 28-Nov-2026 |
+---
 
-## Future Enhancements
+## Reviewer Demo Logins
 
-- Improved offline-first synchronisation.
-- Advanced production analytics.
-- Tamil voice-to-text enhancements.
-- Automated weekly PDF and Excel reports.
-- Enhanced production delay prediction.
-- Persistent cloud database and image storage.
+The application includes a 1-click **Role Switcher** in the top navigation bar. You can also sign in using the following demo credentials:
 
-## Project Objective
+| Persona / Role | Name | Email | Password | Primary Screen |
+| :--- | :--- | :--- | :--- | :--- |
+| **Senior Merchandiser** | Priya Rajan | `priya.rajan@companya-knits.com` | `tiruppur123` | Production Board |
+| **Floor Supervisor** | Murugan Kandasamy (முருகன்) | `murugan.unit1@companya-knits.com` | `tiruppur123` | Supervisor Mobile (தமிழ்) |
+| **Buyer (Company B - UK)** | John Smith | `j.smith@companyb-retail.co.uk` | `tiruppur123` | Buyer Portal (B-PO only) |
+| **Buyer (Company C - Germany)** | Hans Weber | `h.weber@companyc-textil.de` | `tiruppur123` | Buyer Portal (C-PO only) |
+| **Managing Director** | K. Shanmugam | `ks@companya-knits.com` | `tiruppur123` | MD Financial Risk View |
 
-KnitTrack aims to improve production visibility, reduce manual follow-ups, identify production delays earlier, and provide buyers with transparent order progress.
+---
 
-**Developed as a production tracking solution for the knitwear export industry in Tiruppur, Tamil Nadu.**
+## Repository Files
+- `/TDD.md`: Technical Design Document.
+- `/deployment.md`: Step-by-step deployment and operational manual.
+- `/data/knittrack.db`: SQLite database file (created on launch).

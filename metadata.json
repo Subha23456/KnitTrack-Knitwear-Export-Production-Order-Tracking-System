@@ -1,0 +1,6 @@
+{
+  "name": "TexTrack Tiruppur - Knitwear Order Tracking",
+  "description": "Production order-tracking system for Tiruppur knitwear exporters with TNA milestones, Tamil voice supervisor updates, run-rate delay projection, and isolated buyer portals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
